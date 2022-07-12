@@ -4,9 +4,9 @@ Multi-Mode anomalous transport module (MMM) is a theory-based transport model wh
 
 ## Request Access
 To request access to the MMM library, please review the following documents:
-- [End User License Agreement](../legal/eula.pdf)
-- [Terms Of Use](../legal/tou.pdf)
-- [Request For Access (Missing)](../legal/rfq.pdf)
+- [End User License Agreement](https://github.com/MMM-ATM/.github/blob/main/legal/eula.pdf)
+- [Terms Of Use](https://github.com/MMM-ATM/.github/blob/main/legal/tou.pdf)
+- [Request For Access (Missing)](https://github.com/MMM-ATM/.github/blob/main/legal/rfa.pdf)
 
 Afterwards, please send a signed copy of the Request For Access form to [Tariq Rafiq](mailto:rafiq@lehigh.edu).
 
