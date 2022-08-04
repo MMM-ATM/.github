@@ -1,0 +1,54 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+# Personal
+imasdb
+Result*
+*.sublime*
+png
+
+# Developer Files
+doc/dev
+src
+*.f90
+tools/*
+
+# Keep this at the bottom
+!README.md
+!libmmm.a
+!modmmm.mod
+!testmmm.f90
+!mmm_wrapper.f90
+!mmmtestsupport.f90
+!eula.pdf
+!tou.pdf
