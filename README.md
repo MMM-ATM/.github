@@ -2,8 +2,6 @@
 
 This software package contains the multi-mode anomalous transport module (MMM). MMM is a theory-based transport model which has been used to predict temperature, density and toroidal rotation profiles for tokamak plasmas. The model includes an improved Weiland model for the ITG, TEM, and MHD modes, the Horton model for short wavelength ETG model and a new model for the drift resistive inertial ballooning modes (DRIBM). The ETG transport threshold in the Horton model is refined by using threshold obtained from toroidal gyrokinetic ETG turbulence. These components of transport models provide contributions to transport in the different regions of plasma discharge.
 
-> TODO: Add statement about new ETGM, added in MMM v9.
-
 ## Contents
 - [Documentation Links](#documentation-links)
 - [Requirements](#requirements)
