@@ -2,6 +2,7 @@
 
 This software package contains the multi-mode anomalous transport module (MMM). MMM is a theory-based transport model which has been used to predict temperature, density and toroidal rotation profiles for tokamak plasmas. The model includes an improved Weiland model for the ITG, TEM, and MHD modes, the Horton model for short wavelength ETG model and a new model for the drift resistive inertial ballooning modes (DRIBM). The ETG transport threshold in the Horton model is refined by using threshold obtained from toroidal gyrokinetic ETG turbulence. These components of transport models provide contributions to transport in the different regions of plasma discharge.
 
+
 ## Contents
 - [Documentation Links](#documentation-links)
 - [Requirements](#requirements)
@@ -17,7 +18,7 @@ This software package contains the multi-mode anomalous transport module (MMM). 
 Additional documentation located in the `doc` directory:
 
 - [Update History](doc/UpdateHistory.md)
-- [MMM Library](doc/MMMLibrary.md)
+- [MMM Library](doc/Library.md)
 - [Test Driver](doc/TestDriver.md)
 - [Wrapper](doc/Wrapper.md)
 - [IMAS Interface](doc/UsingIMAS.md)
@@ -64,7 +65,7 @@ This project contains the following sub-directories:
 
     Contains the compiled MMM library file.  The library file can be used with the provided `mmm_wrapper.f90` script, as well as your own Fortran90 code.
 
-    See the separate [MMM Library](doc/MMMLibrary.md) documentation for more details.
+    See the separate [MMM Library](doc/Library.md) documentation for more details.
 
 <!-- - :file_folder: **test**
 
@@ -171,13 +172,15 @@ To produce the test case:
 
 Ideally, the diff should reveal few to no differences in values.
 
-See the separate documentation [Test Driver](doc/TestDriver.md) for more information on `test/mmm.exe`.
+See the [Test Driver](doc/TestDriver.md) documentation for more information on `test/mmm.exe`.
 
 ## Plotting Instructions
 MMM output is given as a simple text spreadsheet, which can be interpreted using plotting tools such as gnuplot. The provided `plot.sh` script can be run from any directory containing an output file `output.dat` to produce plots of all input and output variables in that file.  Please refer to the `plot.sh` script directly for more information on plotting with gnuplot.
 
 > [!WARNING]
 > If any errors are encountered using `plot.sh` on a Windows OS, make sure that this file is still using Unix line endings.  This script will completely fail if the line endings get switched to the Windows format.
+
+An example usage of the plotting script can be found in the [Test Driver](doc/TestDriver.md) documentation.
 
 ## Linking Instructions
 
@@ -187,7 +190,7 @@ To use MMM in your own program, the following steps need to be followed:
 2.  A `call` statement of the MMM subroutine must be made.
 3.  MMM library files must be linked against other binary object files.
 
-See the separate documentation [MMM Library](doc/MMMLibrary.md) for more information about the MMM module and MMM subroutine.
+See the separate documentation [MMM Library](doc/Library.md) for more information about the MMM module and MMM subroutine.
 
 The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `modmmm.mod`, which is the Fortran module file.  Both of these files are provided in the `lib` directory.
 
