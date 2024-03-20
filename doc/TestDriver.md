@@ -49,7 +49,6 @@ where *R<sub>0</sub>* is the major radius on axis.  Note that this variable is o
 
 Please view the `test/testmmm.f90` file directly for more information on the verificaitons and calculations mentioned in this section.
 
-> TODO: Test that optional variable calculations still works as described.
 
 ## Running Sample Input Files
 
@@ -96,8 +95,6 @@ The full process to running, viewing, and verifying the results of provided samp
 
     If your installation is correct, then you should see little to no difference between the two files.
 
-
-> TODO: Need to verify that these input files are good representations of MMM with respect to each of the provided machines, and that the calculated diffusivity values are calibrated correctly.
 
 
 ---
