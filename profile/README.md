@@ -2,6 +2,8 @@
 
 Multi-Mode anomalous transport module (MMM) is a theory-based transport model which has been used to predict temperature, density and momentum rotation profiles for tokamak plasmas.
 
+- [Documentation](https://github.com/MMM-ATM/.github)
+
 ## Request Access
 To request access to the MMM library, please review the following documents:
 - [End User License Agreement](https://github.com/MMM-ATM/.github/blob/main/legal/eula.pdf)
