@@ -1,10 +1,8 @@
-
-
 # Multi-Mode Anomalous Transport Model
 
 This software package contains the multi-mode anomalous transport module (MMM). MMM is a theory-based transport model which has been used to predict temperature, density and toroidal rotation profiles for tokamak plasmas. The model includes an improved Weiland model for the ITG, TEM, and MHD modes, the Horton model for short wavelength ETG model and a new model for the drift resistive inertial ballooning modes (DRIBM). The ETG transport threshold in the Horton model is refined by using threshold obtained from toroidal gyrokinetic ETG turbulence. These components of transport models provide contributions to transport in the different regions of plasma discharge.
 
-> TODO: Add statement about new ETGM.  Check if current text should be updated in regards to recent changes.
+> TODO: Add statement about new ETGM, added in MMM v9.
 
 ## Contents
 - [Documentation Links](#documentation-links)
@@ -14,32 +12,26 @@ This software package contains the multi-mode anomalous transport module (MMM). 
 - [Testing Instructions](#testing-instructions)
 - [Plotting Instructions](#plotting-instructions)
 - [Linking Instructions](#linking-instructions)
-- [Manual Compilation](#manual-compilation)
 - [Contact](#contact)
 
 ## Documentation Links
 
-Additional documentation located in the `/doc` directory:
+Additional documentation located in the `doc` directory:
 
 - [Update History](doc/UpdateHistory.md)
 - [MMM Library](doc/MMMLibrary.md)
-- [MMM Driver](doc/MMMDriver.md)
-- [MMM Wrapper](doc/MMMWrapper.md)
-- [Using IMAS](doc/UsingIMAS.md)
+- [Test Driver](doc/TestDriver.md)
+- [Wrapper](doc/Wrapper.md)
+- [IMAS Interface](doc/UsingIMAS.md)
+- [Ifort Installation](doc/Ifort.md)
+- [CDF Input](cdfinput/README.md)
+- [References](doc/References.md)
 
 ## Requirements
 
 MMM is intended to be built on an x64 POSIX-compliant OS (UNIX, Linux, Cygwin, etc.) with a Fortran 90 compiler. The rest of this README will assume that you are running an x64 Linux system with a BASH shell.  Support for the Windows OS is included via Cygwin (www.cygwin.com), although the compiler options may be more limited. Building on other architectures may be possible but has not been tested. Users and developers are welcome to send in their experiences building MMM on different architectures. 
 
 The `make` command must be installed in order to use the included make files.
-
-The testmmm program requires installed PSPLINE library (https://w3.pppl.gov/ntcc/PSPLINE/) and optional IMAS library.
-
-> TODO: Is PSPLINE only required for IMAS?
-
-> TODO: Link to IMAS library?
-
-> TODO: Library Installation instructions needed.
 
 Gnuplot (http://www.gnuplot.info/) is required to use the included plotting script.  This program is freely available on Unix systems and can also be installed within Cygwin.
 
@@ -48,90 +40,110 @@ Gnuplot (http://www.gnuplot.info/) is required to use the included plotting scri
 This project contains the following sub-directories:
 
 
-- **/doc**
+- :file_folder: **doc**
 
     Contains MMM documentation in Markdown format.  Markdown is best viewed on Github or through a Markdown viewer.
 
+- :file_folder: **include**
 
-- **/input**
+    Contains the MOD files, which are built when the MMM Library is compiled.
 
-    Contains sample input files (`sample_input.dat`) that can be used to run MMM.  The expected output corresponding to these input files is also provided (`sample_output.dat`), which can be used to test your MMM installation.
+- :file_folder: **cdfinput**
+
+    Contains the [CDF Input](cdfinput/README.md) script and a sample input file (`sample/sample_input.dat`) for MMM.  The expected corresponding output is also provided (`sample/sample_output.dat`), which can be used to test your MMM installation.
 
     See [Testing Instructions](#testing-instructions) for more details.
 
-- **/legal**
+- :file_folder: **legal**
 
     Contains the following legal documents that pertain to MMM:
     - [End User License Agreement](/legal/eula.pdf)
     - [Terms Of Use](/legal/tou.pdf)
 
-    Please read these documents carefully.
+    Please read these documents carefully before using MMM.
 
-- **/lib**
+- :file_folder: **lib**
 
-    Contains the MMM library file and corresponding .MOD files.  The library file can compiled and used with either the provided `testmmm.f90` or `mmm_wrapper.f90` files, as well as your own Fortran90 code.
+    Contains the compiled MMM library file.  The library file can be used with the provided `mmm_wrapper.f90` script, as well as your own Fortran90 code.
 
     See the separate [MMM Library](doc/MMMLibrary.md) documentation for more details.
 
-- **/test**
+<!-- - :file_folder: **test**
 
     Contains the `testmmm.f90` code that can be used to test and run MMM.
 
     `testmmm.f90` reads in variable data from `input.dat` files and provides some error and verification checks on the imported data.  In addition, `testmmm.f90` provides support for derivative and gradient calculations, if these values aren't provided in the input file.
 
     See [Testing Instructions](#testing-instructions) for more details.
+ -->
+- :file_folder: **wrapper**
 
-- **/wrapper**
+    Contains the `mmm_wrapper.f90` sample Fortran90 code that calls the MMM subroutine using `input.dat` files from the `input` directory.  The wrapper can be used to compile MMM using the provided Make file. Additionally, the wrapper serves as an additional reference in regards to making the MMM subroutine call.
 
-    Contains the `mmm_wrapper.f90` sample Fortran90 code that calls the MMM subroutine using `input.dat` files from the `/input` directory.  The wrapper can be used to compile MMM using the provided Make file. Additionally, the wrapper serves as an additional reference in regards to making the MMM subroutine call.
+    The wrapper is a simplified and streamlined version of testmmm, and was designed to be modifiable by users.
 
-    See the separate [MMM Wrapper](doc/MMMWrapper.md) documentation for more details.
+    See the separate [MMM Wrapper](doc/Wrapper.md) documentation for more details.
 
 
 ## Build Instructions
 
 Follow this two-step procedure to build the binaries using the MMM library:
 
-1.  Set the environmental variable `MMMFC` to the compiler command on your system. Here are some common examples:
+1.  Set the environmental variable `MMMFC` to the compiler command on your system.  gfortran is used as the default compiler if `MMMFC` is not set.  MMM Makefiles support the following compilers:
 
-    |  Compiler | MMMFC setting |
-    |-------------------------|----------------------------|
-    |   GNU Fortran         | gfortran                           |
-    |   Intel Fortran          | ifort                                 |
-    |   PGI Fortran           | pgfortran                         |
-    |   XL Fortran             | xlf                                    |
+    |  Compiler       | MMMFC     | Installation Guide                |
+    |-----------------|-----------|-----------------------------------|
+    |   GNU Fortran   | gfortran  |                                   |
+    |   Intel Fortran | ifort     |  [ifort](doc/Ifort.md)            |
+
+    #### Example Commands:
+    
+    Bash (Cygwin):
     ```bash
-    $ export MMMFC=pathf95
+    export MMMFC=gfortran
     ```
-    ```makefile
-    % setenv MMMFC pathf95
+     Linux:
+    ```bash
+    setenv MMMFC gfortran
+    ```
+    Windows:
+    ```bash
+    setx MMMFC gfortran
     ```
 
-    > TODO: What is this pathf95 stuff???
-
-    > TODO: The current version of MMM (v9.0.0) has only been tested using gfortran.
-
-
-2.  To compile the whole package, including the MMM library file in `/lib` and the stand-alone driver program `test/mmm.exe`, simply run:  
+2.  To compile the whole package, including the MMM library file in `lib` and the stand-alone driver program `test/mmm.exe`, simply run:  
 
     ```bash
-    $ make
+    $ make clean all
     ```
 
-    inside the main directory to invoke the master makefile, which will then invoke secondary makefiles to build the module and the driver program. The binary files (\*.o, \*.a, \*.exe) are placed alongside their source codes. To delete all binary files, use:  
+    inside the main directory to invoke the master makefile, which will then invoke secondary makefiles to build the module and the driver program. The binary files (\*.o, \*.a, \*.exe) are placed alongside their source codes.
+
+    To delete all binary and debugging files, use:  
 
     ```bash
     $ make clean
     ```
 
-    You can generate debugging-ready binary files using these commands:  
+    For users with access to the MMM library file, the following build options are available:
 
-    ```bash
-    $ make clean  
-    $ make debug
-    ```
+    1.  
+        ```bash
+        $ make clean all
+        ```
+        This is the default build option, which is intended to be used in TRANSP.
 
-    > TODO: Might want to remove the debug option from MMM-Release, since it will only enable debugging on testmmm.f90, and not the MMM library.
+    2. 
+        ```bash
+        $ make clean dev
+        ```
+        This is the development build option, which is intended to be used for stand-alone development.  Development mode adds additional variables to the MMM interface, and also prints more feedback during MMM runs.  This option cannot be used in TRANSP, due to the interface changes it contains.
+
+    3. 
+        ```bash
+        $ make clean debug
+        ```
+        This is the debug build option, which can be used both in stand-alone and in TRANSP.  When used in TRANSP as a custom library file, input and output profiles will be printed to individual files each time MMM is called.  This provides a means to compare raw MMM values with values that appear in the CDF output.
 
 It is possible to build the module and the driver program separately, using only the secondary makefiles. In this case, follow these steps:
 
@@ -140,45 +152,33 @@ It is possible to build the module and the driver program separately, using only
 
 ## Testing Instructions
 
-The driver program `test/mmm.exe` requires only one input file called `input.dat`.  Since the input file is a Fortran namelist file, the variables can be arranged in any order.  
+The wrapper `wrapper/mmm.exe` requires only one input file called `input.dat`.  Since the input file is a Fortran namelist file, the variables can be arranged in any order.  
 
-To produce the test cases:
+To produce the test case:
 
-1.  Change the current directory to the directory of one of the test cases, such as `input/case-lmode`.
+1.  Change the current directory to the `input/sample`.
 2.  Copy the sample input file:
     ```bash
     $ cp sample_input.dat input.dat
     ```
-3.  Run the driver program:
+3.  Run the compiled driver program:
     ```bash
-    $ ../../test/mmm.exe  
+    $ ../../test/mmm
     ```
 
-    Note that the driver program is located in a different directory.
+4.  Take a diff between the new output file and the provided sample output file:
+    ```bash
+    $ diff output.dat sample_output.dat
+    ```
 
-After running, `test/mmm.exe` will generate an output file `output.dat`. The output file contains a listing of all possible input arguments used for the MMM subroutine and it is followed by a listing of all output arguments produced by the subroutine. To compare your output with the provided sample output, use this `diff` command:
-```bash
-$ diff output.dat sample_output.dat
-```
-which should give little to no output, if the driver program is correctly built.
+Ideally, the diff should reveal few to no differences in values.
 
-See the separate documentation [MMM Driver](doc/MMMDriver.md) for more information on `test/mmm.exe`.
+See the separate documentation [Test Driver](doc/TestDriver.md) for more information on `test/mmm.exe`.
 
 ## Plotting Instructions
-MMM output is given as a simple text spreadsheet, which can be interpreted using plotting tools such as gnuplot. For example, the output of case-lmode case be visualized using gnuplot by these commands run in the `case-lmode` subdirectory:
-```bash
-$ gnuplot
-gnuplot> plot '< tail -n 51 output.dat' u 1:4 w l ti 'fti'  
-```
+MMM output is given as a simple text spreadsheet, which can be interpreted using plotting tools such as gnuplot. The provided `plot.sh` script can be run from any directory containing an output file `output.dat` to produce plots of all input and output variables in that file.  Please refer to the `plot.sh` script directly for more information on plotting with gnuplot.
 
-> TODO: Check this command still works.
-
-Note that `case-lmode` has 51 zone boundaries (radial points). This gnuplot command extracts the last 51 lines of the output file and generates an X-Y plot with the minor radius (column 1) on X axis and the ion thermal flux `fti` (column 2) on the Y axis.  
-
-> TODO: Discuss the `plot.sh` script.
-
-> TODO: Include sample use of the plotting script.
-
+> [!WARNING]
 > If any errors are encountered using `plot.sh` on a Windows OS, make sure that this file is still using Unix line endings.  This script will completely fail if the line endings get switched to the Windows format.
 
 ## Linking Instructions
@@ -191,29 +191,13 @@ To use MMM in your own program, the following steps need to be followed:
 
 See the separate documentation [MMM Library](doc/MMMLibrary.md) for more information about the MMM module and MMM subroutine.
 
-The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `modmmm.mod`, which is the Fortran module file.  Both of these files are provided in the `/lib` directory.
+The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `modmmm.mod`, which is the Fortran module file.  Both of these files are provided in the `lib` directory.
 
 Linking of `libmmm.a` against other binary object files should only involve putting `libmmm.a` in the object file list, as long as the file can be located by the compiler. Note that only static linking is supported in this version. Please follow the instructions of your Fortran compiler to set appropriate options.
 
 The compilation of any source file that uses the `modmmm` module requires the compiler to correctly locate the module file `modmmm.mod` Most compiler search `*.mod` files in directories listed after the -I option. Module files are generally incompatible among different compilers. You will not be able to compile the driver program with compiler B if the MMM module is compiled using compiler A.
 
-The provided MMM library files are made available using different compilers and can be found in the tagged releases on Github.  If your specific compiler is not supported, then please [Contact](#contact) us in regards to adding support for your compiler.
-
-
-## Manual Compilation
-
-If the `make` utility does not work, or if the build is being done on an unsupported platform, then the compilations may need to be done manually. 
-
-To do this, compile the driver program and link the object codes together to produce the executable `test/mmm.exe`:  
-```bash
-    $ cd test  
-    $ f90 -c -I../lib testmmm.f90 -o testmmm.o  
-    $ f90 testmmm.o ../lib/libmmm.a -o mmm
-```
-
->TODO: Needs to be updated to include `mmmTestSupport.f90` file
-
-Note that how the module file `modmmm.mod` is located by the `-I` option and how the static-link library `libmmm.a` is linked with other object files. To generate debugging-ready binary files, replace all `-c` with `-g -c`.  
+The provided MMM library files are made available using different compilers and can be found in the tagged releases on Github.  If your specific compiler is not supported, then please contact us in regards to adding support for your compiler.
 
 ## Contact
 
