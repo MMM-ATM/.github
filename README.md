@@ -24,7 +24,7 @@ Additional documentation located in the `doc` directory:
 - [Wrapper](doc/Wrapper.md)
 - [IMAS Interface](doc/UsingIMAS.md)
 - [Ifort Installation](doc/Ifort.md)
-- [CDF Input](cdfinput/README.md)
+- [CDF Input](doc/CDFInput.md)
 - [References](doc/References.md)
 
 ## Requirements
@@ -50,7 +50,7 @@ This project contains the following sub-directories:
 
 - :file_folder: **cdfinput**
 
-    Contains the [CDF Input](cdfinput/README.md) script and a sample input file (`sample/sample_input.dat`) for MMM.  The expected corresponding output is also provided (`sample/sample_output.dat`), which can be used to test your MMM installation.
+    Contains the [CDF Input](doc/CDFInput.md) script and a sample input file (`sample/sample_input.dat`) for MMM.  The expected corresponding output is also provided (`sample/sample_output.dat`), which can be used to test your MMM installation.
 
     See [Testing Instructions](#testing-instructions) for more details.
 
