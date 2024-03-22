@@ -1,7 +1,6 @@
 # Multi-Mode Anomalous Transport Model
 
-This software package contains the multi-mode anomalous transport module (MMM). MMM is a theory-based transport model which has been used to predict temperature, density and toroidal rotation profiles for tokamak plasmas. The model includes an improved Weiland model for the ITG, TEM, and MHD modes, the Horton model for short wavelength ETG model and a new model for the drift resistive inertial ballooning modes (DRIBM). The ETG transport threshold in the Horton model is refined by using threshold obtained from toroidal gyrokinetic ETG turbulence. These components of transport models provide contributions to transport in the different regions of plasma discharge.
-
+The physics-based Multi-Mode Model (MMM) is a multi-species, multi-fluid, multi-mode anomalous transport model that calculates electron and ion thermal transport, electron particle transport, impurity transport, and toroidal and poloidal momentum transport in tokamak discharges. The MMM comprises four components: (i) the Weiland model for transport driven by ion temperature gradient (ITG), trapped electrons (TE), kinetic ballooning (KB), peeling, and high mode number MHD modes; (ii) a new model of electromagnetic electron temperature gradient mode (ETGM) for electron thermal transport; (iii) an updated model of microtearing mode (MTM) for transport driven by electron temperature gradients in both the collisionless and collisionality regimes in the presence of perturbations of the magnetic flux surfaces; and (iv) an updated model for the drift resistive inertial ballooning mode (DBM) for transport driven by gradients, electron inertial effects, and inductive effects. Numerous upgrades have been implemented to enhance the precision, consistency, speed, and physical basis of these MMM components.
 
 ## Contents
 - [Documentation Links](#documentation-links)
@@ -28,7 +27,7 @@ Additional documentation located in the `doc` directory:
 
 ## Requirements
 
-MMM is intended to be built on an x64 POSIX-compliant OS (UNIX, Linux, Cygwin, etc.) with a Fortran 90 compiler. The rest of this README will assume that you are running an x64 Linux system with a BASH shell.  Support for the Windows OS is included via Cygwin (www.cygwin.com), although the compiler options may be more limited. Building on other architectures may be possible but has not been tested. Users and developers are welcome to send in their experiences building MMM on different architectures. 
+MMM is intended to be built on an x64 POSIX-compliant OS (UNIX, Linux, Cygwin, etc.) with a Fortran 90 compiler. The rest of this README will assume that you are running an x64 Linux system with a BASH shell.  Support for the Windows OS is included via compiling with gfortran using Cygwin (www.cygwin.com) or by compiling with ifort. Building on other architectures may be possible but has not been tested. Users and developers are welcome to send in their experiences building MMM on different architectures. 
 
 The `make` command must be installed in order to use the included make files.
 
@@ -77,7 +76,7 @@ This project contains the following sub-directories:
  -->
 - :file_folder: **wrapper**
 
-    Contains the `mmm_wrapper.f90` sample Fortran90 code that calls the MMM subroutine using `input.dat` files from the `input` directory.  The wrapper can be used to compile MMM using the provided Make file. Additionally, the wrapper serves as an additional reference in regards to making the MMM subroutine call.
+    Contains the `mmm_wrapper.f90` sample Fortran90 code that calls the MMM subroutine using `input.dat` input files.  The wrapper can be used to compile MMM using the provided Make file. Additionally, the wrapper serves as an additional reference in regards to making the MMM subroutine call.
 
     The wrapper is a simplified and streamlined version of testmmm, and was designed to be modifiable by users.
 
@@ -88,7 +87,7 @@ This project contains the following sub-directories:
 
 Follow this two-step procedure to build the binaries using the MMM library:
 
-1.  Set the environmental variable `MMMFC` to the compiler command on your system.  gfortran is used as the default compiler if `MMMFC` is not set.  MMM Makefiles support the following compilers:
+1.  Set the environmental variable `MMMFC` to the compiler command on your system.  gfortran is used as the default compiler if `MMMFC` is not set.  MMM Make files support the following compilers:
 
     |  Compiler       | MMMFC     | Installation Guide                |
     |-----------------|-----------|-----------------------------------|
@@ -110,13 +109,13 @@ Follow this two-step procedure to build the binaries using the MMM library:
     setx MMMFC gfortran
     ```
 
-2.  To compile the whole package, including the MMM library file in `lib` and the stand-alone driver program `test/mmm.exe`, simply run:  
+2.  To compile the whole package, including the MMM library file in `lib` and the stand-alone driver program `wrapper/mmm.exe`, simply run:  
 
     ```bash
     $ make clean all
     ```
 
-    inside the main directory to invoke the master makefile, which will then invoke secondary makefiles to build the module and the driver program. The binary files (\*.o, \*.a, \*.exe) are placed alongside their source codes.
+    inside the main directory to invoke the master make file, which will then invoke secondary make files to build the module and the driver program. The object files (\*.o, \*.mod) are built in the `include` directory, the library file (\*.a) is built in the `lib` directory, and the driver executable (\*.exe) is built in the `wrapper` directory.
 
     To delete all binary and debugging files, use:  
 
@@ -144,25 +143,25 @@ Follow this two-step procedure to build the binaries using the MMM library:
         ```
         This is the debug build option, which can be used both in stand-alone and in TRANSP.  When used in TRANSP as a custom library file, input and output profiles will be printed to individual files each time MMM is called.  This provides a means to compare raw MMM values with values that appear in the CDF output.
 
-It is possible to build the module and the driver program separately, using only the secondary makefiles. In this case, follow these steps:
+It is possible to build the module and the driver program separately, using only the secondary make files. In this case, follow these steps:
 
 1.  Set the environmental variable `MMMFC` to the compiler command on your system.
-2.  Change the current directory to the subdirectory where you want to build binaries and issue the `make` command.
+2.  Change the current directory to the sub directory where you want to build binaries and issue the `make` command.
 
 ## Testing Instructions
 
-The wrapper `wrapper/mmm.exe` requires only one input file called `input.dat`.  Since the input file is a Fortran namelist file, the variables can be arranged in any order.  
+The test driver `wrapper/mmm.exe` requires only one input file called `input.dat`.  Since the input file is a Fortran namelist, the variables can be arranged in any order.  
 
 To produce the test case:
 
-1.  Change the current directory to the `input/sample`.
+1.  Change the current directory to `cdfinput/sample`.
 2.  Copy the sample input file:
     ```bash
     $ cp sample_input.dat input.dat
     ```
 3.  Run the compiled driver program:
     ```bash
-    $ ../../test/mmm
+    $ ../../wrapper/mmm
     ```
 
 4.  Take a diff between the new output file and the provided sample output file:
@@ -170,9 +169,9 @@ To produce the test case:
     $ diff output.dat sample_output.dat
     ```
 
-Ideally, the diff should reveal few to no differences in values.
+Ideally, the diff should reveal few to no differences in values.  Minor differences in output may be attributed to chosen compiler used.
 
-See the [Test Driver](doc/TestDriver.md) documentation for more information on `test/mmm.exe`.
+See the [Test Driver](doc/TestDriver.md) documentation for more information.
 
 ## Plotting Instructions
 MMM output is given as a simple text spreadsheet, which can be interpreted using plotting tools such as gnuplot. The provided `plot.sh` script can be run from any directory containing an output file `output.dat` to produce plots of all input and output variables in that file.  Please refer to the `plot.sh` script directly for more information on plotting with gnuplot.
@@ -192,11 +191,11 @@ To use MMM in your own program, the following steps need to be followed:
 
 See the separate documentation [MMM Library](doc/Library.md) for more information about the MMM module and MMM subroutine.
 
-The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `modmmm.mod`, which is the Fortran module file.  Both of these files are provided in the `lib` directory.
+The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `mmm_main.mod`, which is the Fortran module file.  Both of these files are provided in the `lib` directory.
 
 Linking of `libmmm.a` against other binary object files should only involve putting `libmmm.a` in the object file list, as long as the file can be located by the compiler. Note that only static linking is supported in this version. Please follow the instructions of your Fortran compiler to set appropriate options.
 
-The compilation of any source file that uses the `modmmm` module requires the compiler to correctly locate the module file `modmmm.mod` Most compiler search `*.mod` files in directories listed after the -I option. Module files are generally incompatible among different compilers. You will not be able to compile the driver program with compiler B if the MMM module is compiled using compiler A.
+The compilation of any source file that uses the `mmm_main` module requires the compiler to correctly locate the module file `mmm_main.mod` Most compiler search `*.mod` files in directories listed after the -I option. Module files are generally incompatible among different compilers. You will not be able to compile the driver program with compiler B if the MMM module is compiled using compiler A.
 
 The provided MMM library files are made available using different compilers and can be found in the tagged releases on Github.  If your specific compiler is not supported, then please contact us in regards to adding support for your compiler.
 
