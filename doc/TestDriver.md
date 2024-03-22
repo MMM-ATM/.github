@@ -1,7 +1,7 @@
 # Test Driver Documentation
 
 > [!WARNING]
-> Test driver currently depreciated.  Please use the [wrapper](Wrapper.md) instead.
+> Test driver currently depreciated.  Please use the [wrapper](Wrapper.md) instead.  This documentation can still be referenced for additional information.
 
 A Test Driver has been provided in the `test` directory.  The Test Driver has been designed as a means to test and run your MMM installation.  In contrast to the Wrapper, the Test Driver provides maximum feedback on input file error checks, support for some input variable calculations, and the values of input variables sent to MMM.  Because of this, the performance of the Test Driver will not be as good as the performance of the Wrapper, however the difference will be negligible when running MMM using only a single input file.
 
