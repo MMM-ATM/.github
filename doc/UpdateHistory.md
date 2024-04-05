@@ -1,9 +1,35 @@
 # Update History
 
-- [v9.1.0](#v910)
+- [v9.1.1](#v911), [v9.1.0](#v910)
 - [v9.0.10](#v9010), [v9.0.9](#v909), [v9.0.8](#v908), [v9.0.7](#v907), [v9.0.6](#v906), [v9.0.5](#v905), [v9.0.4](#v904), [v9.0.3](#v903), [v9.0.2](#v902), [v9.0.1](#v901)
 - [v8.2.3](#v823), [v8.2.2](#v822), [v8.2.1](#v821), [v8.2.0](#v820), [v8.1.0](#v810)
 - [v7.2.0](#v720), [v7.1.0](#v710)
+
+## v9.1.1
+   
+###### 2024/04/05  ([Top](#update-history))
+
+**MTM**
+- Introduced nested interval scan to find most unstable mode, before modes are summed
+- Increases total kyrhos scans by fewer than 50
+- OpenMD directives introduced to increase vectorization
+- Results are now much smoother and a slight speed boost was gained relative to v9.1.0
+
+**R8TOMSQZ**
+- Optimized for small speed boost and smaller inlined size
+- Outputs eigenvalues directly instead of the alpha, beta pair
+- Min value for beta reduced
+- Fixed order of rows x columns when square matrices aren't used
+
+**Support**
+- Developer routines no longer compile when developer mode is not enabled
+- Improved timing routines
+
+**Makefile**
+- Build mode to generate optimization reports added `make clean report` 
+- Debugging flags updated
+- OpenMP added for ifort by default
+- Environment variable `MMMOMP` added to control OpenMP building for gfortran
 
 ## v9.1.0
    
