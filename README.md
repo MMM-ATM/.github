@@ -1,6 +1,10 @@
 # Multi-Mode Anomalous Transport Model
 
-The physics-based Multi-Mode Model (MMM) is a multi-species, multi-fluid, multi-mode anomalous transport model that calculates electron and ion thermal transport, electron particle transport, impurity transport, and toroidal and poloidal momentum transport in tokamak discharges. The MMM comprises four components: (i) the Weiland model for transport driven by ion temperature gradient (ITG), trapped electrons (TE), kinetic ballooning (KB), peeling, and high mode number MHD modes; (ii) a new model of electromagnetic electron temperature gradient mode (ETGM) for electron thermal transport; (iii) an updated model of microtearing mode (MTM) for transport driven by electron temperature gradients in both the collisionless and collisionality regimes in the presence of perturbations of the magnetic flux surfaces; and (iv) an updated model for the drift resistive inertial ballooning mode (DBM) for transport driven by gradients, electron inertial effects, and inductive effects. Numerous upgrades have been implemented to enhance the precision, consistency, speed, and physical basis of these MMM components.
+The physics-based Multi-Mode Model (MMM) is a multi-species, multi-fluid, multi-mode anomalous transport model that calculates electron and ion thermal transport, electron particle transport, impurity transport, and toroidal and poloidal momentum transport in tokamak discharges. MMM comprises of four components: 
+1. The Weiland model for transport driven by ion temperature gradient (ITG), trapped electrons (TE), kinetic ballooning (KB), peeling, and high mode number MHD modes.
+2. A new model of electromagnetic electron temperature gradient mode (ETGM) for electron thermal transport.
+3. An updated model of microtearing mode (MTM) for transport driven by electron temperature gradients in both the collisionless and collisionality regimes in the presence of perturbations of the magnetic flux surfaces.
+4. An updated model for the drift resistive inertial ballooning mode (DBM) for transport driven by gradients, electron inertial effects, and inductive effects.
 
 ## Contents
 - [Documentation Links](#documentation-links)
@@ -21,22 +25,29 @@ Additional documentation located in the `doc` directory:
 - [Test Driver](doc/TestDriver.md)
 - [Wrapper](doc/Wrapper.md)
 - [IMAS Interface](doc/UsingIMAS.md)
-- [Ifort Installation](doc/Ifort.md)
+- [ifort Installation](doc/Ifort.md)
 - [CDF Input](doc/CDFInput.md)
+- [Compiler Flags](doc/CompilerFlags.md)
 - [References](doc/References.md)
 
 ## Requirements
 
-MMM is intended to be built on an x64 POSIX-compliant OS (UNIX, Linux, Cygwin, etc.) with a Fortran 90 compiler. The rest of this README will assume that you are running an x64 Linux system with a BASH shell.  Support for the Windows OS is included via compiling with gfortran using Cygwin (www.cygwin.com) or by compiling with ifort. Building on other architectures may be possible but has not been tested. Users and developers are welcome to send in their experiences building MMM on different architectures. 
+MMM is intended to be built on either Microsoft Windows or x64 POSIX-compliant operating systems (UNIX, Linux, etc.) with a modern Fortran compiler that supports Fortran 2018 standards.  Windows users are able to use Intel compilers, whereas Linux users may use either Intel or the gfortran compiler.  Window users may also use gfortran via Cygwin (www.cygwin.com), although MMM runs much faster when compiled with an Intel compiler on Windows. Building on other architectures may be possible but has not been tested. Users and developers are welcome to send in their experiences building MMM on different architectures. 
 
-The `make` command must be installed in order to use the included make files.
-
-Gnuplot (http://www.gnuplot.info/) is required to use the included plotting script.  This program is freely available on Unix systems and can also be installed within Cygwin.
+The `make` command must be installed in order to use the included make files.  The plotting program Gnuplot (http://www.gnuplot.info/) is required to use the included plotting script, but isn't needed to run MMM.  Both programs are available on Unix systems and can be installed via Cygwin for Windows users.
 
 ## Project Contents
 
 This project contains the following sub-directories:
 
+
+- :file_folder: **cdfinput**
+
+    Contains the [CDF Input](doc/CDFInput.md) program which can be used to generate MMM input files from TRANSP output CDF.  This program was used to generate all sample input files in the `data` directory.
+
+- :file_folder: **data**
+
+    Contains many input files for testing MMM.  Using the command `make runall` from either the main or `wrapper` directory will run MMM using all input files in this directory. See [Testing Instructions](#testing-instructions) for more details.
 
 - :file_folder: **doc**
 
@@ -44,13 +55,7 @@ This project contains the following sub-directories:
 
 - :file_folder: **include**
 
-    Contains the MOD files, which are built when the MMM Library is compiled.
-
-- :file_folder: **cdfinput**
-
-    Contains the [CDF Input](doc/CDFInput.md) script and a sample input file (`sample/sample_input.dat`) for MMM.  The expected corresponding output is also provided (`sample/sample_output.dat`), which can be used to test your MMM installation.
-
-    See [Testing Instructions](#testing-instructions) for more details.
+    Contains the MOD files, which are built when the MMM Library is compiled.  Object files are temporarily moved here, but are cleaned after the MMM executable is built.
 
 - :file_folder: **legal**
 
@@ -76,9 +81,7 @@ This project contains the following sub-directories:
  -->
 - :file_folder: **wrapper**
 
-    Contains the `mmm_wrapper.f90` sample Fortran90 code that calls the MMM subroutine using `input.dat` input files.  The wrapper can be used to compile MMM using the provided Make file. Additionally, the wrapper serves as an additional reference in regards to making the MMM subroutine call.
-
-    The wrapper is a simplified and streamlined version of testmmm, and was designed to be modifiable by users.
+    Contains the compiled executable `mmm.exe` when MMM is built from either the main or `wrapper` directory.  This also contains the `mmm_wrapper.f90` sample Fortran code which is used as an interface to call the MMM subroutine in the compiled MMM library.  The wrapper was designed to serve as a simple example of how to call the MMM library, and may be modified by users as needed.
 
     See the separate [MMM Wrapper](doc/Wrapper.md) documentation for more details.
 
@@ -87,91 +90,94 @@ This project contains the following sub-directories:
 
 Follow this two-step procedure to build the binaries using the MMM library:
 
-1.  Set the environmental variable `MMMFC` to the compiler command on your system.  gfortran is used as the default compiler if `MMMFC` is not set.  MMM Make files support the following compilers:
+1.  Set the environmental variable `MMMFC` to the compiler command on your system.  ifort is used as the default compiler if `MMMFC` is not set.  MMM Make files support the following compilers:
 
-    |  Compiler       | MMMFC     | Installation Guide                |
-    |-----------------|-----------|-----------------------------------|
-    |   GNU Fortran   | gfortran  |                                   |
-    |   Intel Fortran | ifort     |  [ifort](doc/Ifort.md)            |
+    |  Compiler             | MMMFC     | Installation Guide                |
+    |-----------------------|-----------|-----------------------------------|
+    |   GNU Fortran         | gfortran  |                                   |
+    |   Intel Fortran       | ifort     |  [ifort](doc/Ifort.md)            |
+    |   Intel Fortran (new) | ifx       |  [ifort](doc/Ifort.md)            |
 
     #### Example Commands:
     
-    Bash (Cygwin):
     ```bash
-    export MMMFC=gfortran
-    ```
-     Linux:
-    ```bash
-    setenv MMMFC gfortran
-    ```
-    Windows:
-    ```bash
-    setx MMMFC gfortran
+    # Cygwin
+    export MMMFC=ifort
+
+    # Linux
+    setenv MMMFC ifort
+
+    # Windows
+    set MMMFC=ifort  # Temporary
+    setx MMMFC ifort  # Permanent (after restarting command prompt)
     ```
 
-2.  To compile the whole package, including the MMM library file in `lib` and the stand-alone driver program `wrapper/mmm.exe`, simply run:  
+    Environment variables can also be set within the `make` commands (see below).
+
+2.  The MMM program can be compiled using different build modes, detailed below.  The make commands are the same for all operating systems.
 
     ```bash
+    # Default build (used for TRANSP builds)
     $ make clean all
-    ```
 
-    inside the main directory to invoke the master make file, which will then invoke secondary make files to build the module and the driver program. The object files (\*.o, \*.mod) are built in the `include` directory, the library file (\*.a) is built in the `lib` directory, and the driver executable (\*.exe) is built in the `wrapper` directory.
+    # Developer build (with additional output variables)
+    $ make clean dev
 
-    To delete all binary and debugging files, use:  
+    # Debugging build (with recommended disabling of MMMIPO)
+    $ make clean dbg MMMIPO=0
 
-    ```bash
+    # Default build with the ifx compiler using Intel chip optimizations
+    $ make clean all MMMFC=ifx MMMINTEL=1
+
+    # Clean all files built in lib, src, include, and wrapper.
     $ make clean
     ```
 
-    For users with access to the MMM library file, the following build options are available:
+    The library file and executable can also be built separately using the make files in their associated directories.  See the [Compiler Flags](doc/CompilerFlags.md) documentation for more info on the build flags used in each of the make files.
 
-    1.  
-        ```bash
-        $ make clean all
-        ```
-        This is the default build option, which is intended to be used in TRANSP.
+3. Additional environment variables are available to customize the MMM build.  Set each variable to a value of 0 to disable the associated behavior.
 
-    2. 
-        ```bash
-        $ make clean dev
-        ```
-        This is the development build option, which is intended to be used for stand-alone development.  Development mode adds additional variables to the MMM interface, and also prints more feedback during MMM runs.  This option cannot be used in TRANSP, due to the interface changes it contains.
+    |  Environment Variable   | Default Value     | Usage               |
+    |-------------|----|-----------------------------------|
+    |   MMMOMP    | 1  | Enables Open MP parallelization. This option has a great impact on performance, however gfortran users via Cygwin may notice decreased performance when more than 2 threads are used (as specified in the input file).                                    |
+    |   MMMIPO    | 0  | Enables interprocedural optimizations. This may will increase the size of the MMM library, and may lead to minor performance improvements. |
+    |   MMMINTEL  | 0  | Enables optimizations specific for Intel chips.  This option can lead to noticeable boosts, especially on newer Intel chips.  This option has no effect when used with gfortran. |
 
-    3. 
-        ```bash
-        $ make clean debug
-        ```
-        This is the debug build option, which can be used both in stand-alone and in TRANSP.  When used in TRANSP as a custom library file, input and output profiles will be printed to individual files each time MMM is called.  This provides a means to compare raw MMM values with values that appear in the CDF output.
+> [!WARNING]
+> Do not enable the `MMMINTEL` flag on AMD chips, as this will actually cause MMM to run slower.  This is not a bug, as Intel has intentionally made their chip-specific optimizations run slower on AMD chips, due to competitive reasons.
 
-It is possible to build the module and the driver program separately, using only the secondary make files. In this case, follow these steps:
-
-1.  Set the environmental variable `MMMFC` to the compiler command on your system.
-2.  Change the current directory to the sub directory where you want to build binaries and issue the `make` command.
 
 ## Testing Instructions
 
-The test driver `wrapper/mmm.exe` requires only one input file called `input.dat`.  Since the input file is a Fortran namelist, the variables can be arranged in any order.  
+Forty input files from various discharges and machine types have been provided in the `data` directory.  The command `make runall` can be used from either the main or `wrapper` directory to run MMM using all input files in the `data` directory.  Sample output files have also been provided, which were built using the following command on a Windows machine:
+```bash
+make clean dev MMMIPO=0 MMMINTEL=1 MMMOMP=1 MMMFC=ifort && make runall
+```
 
-To produce the test case:
+Use the make command `make diffall` to diff output files created using `make runall` against their associated sample output files.  The `make diffall` command has been set to only show the names of files with different values.  
 
-1.  Change the current directory to `cdfinput/sample`.
-2.  Copy the sample input file:
-    ```bash
-    $ cp sample_input.dat input.dat
-    ```
-3.  Run the compiled driver program:
-    ```bash
-    $ ../../wrapper/mmm
-    ```
+The `make diffall+` command can be used to show the actual values of each line that differs between an output and associated sample output file.  The order of the output will correspond to the order that differing files were listed when the `make diffall` command was used.
 
-4.  Take a diff between the new output file and the provided sample output file:
-    ```bash
-    $ diff output.dat sample_output.dat
-    ```
+When using either `make diffall` or `make diffall+`, the diff commands should appear in the console window.  An example diff command appears below. If no diff commands appear, then double-check that both `output*.dat` and `sample_output*.dat` files are in the `data` directory.
 
-Ideally, the diff should reveal few to no differences in values.  Minor differences in output may be attributed to chosen compiler used.
+```bash
+cd wrapper; make diffall
+make[1]: Entering directory '/home/metxc/mmm/wrapper'
+diff ../data/output08505Z06.dat ../data/sample_output08505Z06.dat --brief --ignore-space-change;
+```
 
-See the [Test Driver](doc/TestDriver.md) documentation for more information.
+Output between the ifort and ifx compilers should generally be the same, but minor differences between gfortran and Intel compilers are expected.  The following files are expected to show one-line differences at edge of the plasma (final row of output values) when gfortran is used with the `make runall` command:
+
+```bash
+Files ../input/output128474X01.dat and ../input/sample_output128474X01.dat differ
+Files ../input/output133964Z02.dat and ../input/sample_output133964Z02.dat differ
+Files ../input/output141069A01.dat and ../input/sample_output141069A01.dat differ
+Files ../input/output142111A03.dat and ../input/sample_output142111A03.dat differ
+```
+
+If no message of the above form is seen when using either diff command, then all output files match their associated sample output files.
+
+Please [Contact](#contact) us if major differences in output values are seen with your MMM build.
 
 ## Plotting Instructions
 MMM output is given as a simple text spreadsheet, which can be interpreted using plotting tools such as gnuplot. The provided `plot.sh` script can be run from any directory containing an output file `output.dat` to produce plots of all input and output variables in that file.  Please refer to the `plot.sh` script directly for more information on plotting with gnuplot.
@@ -189,15 +195,7 @@ To use MMM in your own program, the following steps need to be followed:
 2.  A `call` statement of the MMM subroutine must be made.
 3.  MMM library files must be linked against other binary object files.
 
-See the separate documentation [MMM Library](doc/Library.md) for more information about the MMM module and MMM subroutine.
-
-The MMM library files that must be linked are `libmmm.a`, which is the static-link library, and `mmm_main.mod`, which is the Fortran module file.  Both of these files are provided in the `lib` directory.
-
-Linking of `libmmm.a` against other binary object files should only involve putting `libmmm.a` in the object file list, as long as the file can be located by the compiler. Note that only static linking is supported in this version. Please follow the instructions of your Fortran compiler to set appropriate options.
-
-The compilation of any source file that uses the `mmm_main` module requires the compiler to correctly locate the module file `mmm_main.mod` Most compiler search `*.mod` files in directories listed after the -I option. Module files are generally incompatible among different compilers. You will not be able to compile the driver program with compiler B if the MMM module is compiled using compiler A.
-
-The provided MMM library files are made available using different compilers and can be found in the tagged releases on Github.  If your specific compiler is not supported, then please contact us in regards to adding support for your compiler.
+See the separate documentation [MMM Library](doc/Library.md) for more information about the MMM module and MMM subroutine.  The `wrapper` directory also serves as an example of how to build an executable using the MMM library.  See the make file and `mmm_wrapper.f90` source code for further details.
 
 ## Contact
 
