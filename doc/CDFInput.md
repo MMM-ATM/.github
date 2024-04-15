@@ -1,64 +1,71 @@
-# CDF Input
+<h1 align="center">CDF Input<a name="top"></a></h1>
 
-CDF Input generates input files for MMM using output CDF from TRANSP runs.
+CDF Input quickly generates input files for MMM using output CDF from TRANSP runs.  CDF Input can be run both locally and on PPPL servers.
 
-## Contents
-- [Installation](#installation)
-- [Example](#example)
-- [Modules](#modules)
-- [Contact](#contact)
+## 📚 Contents
+- [Installation](#-installation)
+- [Example](#%EF%B8%8F-example)
+- [Modules](#%EF%B8%8F-modules)
+- [Contact](#%EF%B8%8F-contact)
 
-## Installation
 
-### Python
+## 💿 Installation
 
-This program should work with the most current version of Python:
-* https://www.python.org/downloads/
 
-> [!Warning]
-> CDF Input has been verified to work with Python 3.8, but it may not support earlier versions of Python.
+This program requires Python v3.8+ 
+- https://www.python.org/downloads/
 
 The following Python packages are also required:
 * [numpy](https://numpy.org/)
 * [scipy](https://scipy.org/)
 * [netCDF4](https://unidata.github.io/netcdf4-python/)
 
-#### PPPL Cluster Installation
+### Installation Guides
+
+<details closed><summary><b> &ensp; PPPL Cluster Installation &ensp; </b></summary><dl><dd>
+<br>
+
 The most recent Python version available on PPPL must be loaded.  At the time this was written, the most current version is:
-```
-module load python/3.8.2
+```sh
+module load python/3.11.4
 ```
 
-Since numpy is already installed, only the scipy and netCDF4 packages are needed.  The install commands should be written as:
-```
+Since numpy is already installed, only the scipy and netCDF4 packages are needed.  The pip install commands need to be written as:
+```sh
 pip3 install scipy --user
 pip3 install netCDF4 --user
 ```
 
-#### General Installation
+</details>
+
+<details closed><summary><b> &ensp; General Installation &ensp; </b></summary><dl><dd>
+<br>
+
 Each package can be installed using the Python Package Index via the following terminal commands:
+
 ```
 pip install numpy
 pip install scipy
 pip install netCDF4
 ```
 
-> [!Tip]
 > If the `pip` command does not work, then you likely need to [add Python to your Path](https://datatofish.com/add-python-to-windows-path/) (Windows OS).
 
-### CDF
+</details>
 
-CDF files can either be placed in the local `cdf` sub-directory, or they can be accessed directly from the TRANSP archive.  CDF Input will first check the local `cdf` directory before recursively searching through the TRANSP archive for the specified CDF.  The search directory path can also be modified in the settings module to point to another location as needed.
+### CDF Files
+
+CDF files can either be placed in the local cdf sub-directory, or they can be accessed directly from the TRANSP archive.  CDF Input will first check the local cdf directory before recursively searching through the TRANSP archive for the specified CDF.  The search directory path can also be modified in the settings module to point to another location as needed.
 
 
-## Example
+## ✏️ Example
 
 CDF Input should be run from the command line using the following inputs:
-1. runid - The runid of the discharge
-2. time - The input time to use, in seconds
+1. `runid`: The runid of the discharge
+2. `time`: The input time to use, in seconds
 
-> [!Warning]
-> The runid is case-sensitive.  The extension ".CDF" should not be included, and will be discarded if it is.
+> [!Note]
+> The runid is case-sensitive, and the ".CDF" file type should not be included.
 
 For example, to create an input file using 129016W13.CDF at time 0.5s:
 ```
@@ -90,7 +97,9 @@ INFO: Input file written
     /u/chwilson/cdfinput/input.dat
 ```
 
-## Modules
+## 🖥️ Modules
+
+This section gives an overview of each of the modules in CDF Input.
 
 ### Read CDF
 
@@ -119,34 +128,34 @@ This module defines all variables as `Variable` objects in a single `Variables` 
 Additionally, some CDF variables are interpolated to the XB dimension (zone boundaries), so that all input profiles will be defined on the same dimension.  This is needed as variables in the CDF are often defined on multiple different dimensions.
 
 In the variables module, individual Variable objects can be defined with any of the following properties:
-* absolute_max: Maximum absolute value of variable
-* absolute_min: Minimum absolute value of variable (avoid division by zero)
-* cdfvar: Name of variable to load from CDF
-* desc: Stores the long_name value from CDF
-* dimensions: Dimensions of variable (only used for loading vars from CDF)
-* is_absolute: Take absolute value of variable values
-* is_dimensional: Whether variable is used to define CDF dimensions
-* is_input: Whether variable should be written to MMM input file
-* label: Variable label in LaTeX Format
-* name: Name of variable
-* physical_min: Minimum cutoff for values to be physical (used for error checks)
-* units: Physical units of the variable, in simple format
-* units_override: Override units in CDF with this value (some CDF units are wrong)
-* values: Values of variable
+* `absolute_max`: Maximum absolute value of variable
+* `absolute_min`: Minimum absolute value of variable (avoid division by zero)
+* `cdfvar`: Name of variable to load from CDF
+* `desc`: Stores the long_name value from CDF
+* `dimensions`: Dimensions of variable (only used for loading vars from CDF)
+* `is_absolute`: Take absolute value of variable values
+* `is_dimensional`: Whether variable is used to define CDF dimensions
+* `is_input`: Whether variable should be written to MMM input file
+* `label`: Variable label in LaTeX Format
+* `name`: Name of variable
+* `physical_min`: Minimum cutoff for values to be physical (used for error checks)
+* `units`: Physical units of the variable, in simple format
+* `units_override`: Override units in CDF with this value (some CDF units are wrong)
+* `values`: Values of variable
 
-If a variable is not found in the CDF, then the value of absolute_min will be used in any calculations involving that variable.
+If a variable is not found in the CDF, then the value of `absolute_min` will be used in any calculations involving that variable.
 
-Conversions from CDF to MMM units are defined in the Variables.convert_units method.  New conversion rules should be added as needed.
+Conversions from CDF to MMM units are defined in the `Variables.convert_units` method.  New conversion rules should be added as needed.
 
 ### Write
 
 The `write` module is responsible for generating the MMM input file, after all other modules have been called.  Input files will be generated in the same directory from which CDF Input was called.  The input file name is specified in the settings module, and can also be updated dynamically during a CDF Input call, if using this program to generate multiple input files during a single call.
 
-## Contact
+## ✉️ Contact
 
-Please contact [Christopher Wilson](cwilson@lehigh.edu) in regards to any questions or issues with this program.
+Please contact [Christopher Wilson](metxchris@gmail.com) in regards to any questions relating to this code.
 
 
 ---
 
-[Return](../README.md)
+###### [⬆️ Top](#top)&nbsp;&nbsp; [↩️ Return](../README.md)

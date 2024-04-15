@@ -1,9 +1,11 @@
-# Documentation
-Contains MMM documentation in Markdown format. 
+<h1 align="center">Documentation<a name="top"></a></h1>
 
-Markdown is best viewed either on Github directly or through a Markdown viewer.
+Contains MMM documentation in Markdown format, designed to be viewed on Github using Github flavored markdown.  MathJax support for $\LaTeX$ parsing is also assumed.
+
+Public MMM documentation is available here:
+- https://github.com/MMM-ATM/.github
 
 
 ---
 
-[Return](../README.md)
+###### [↩️ Return](../README.md)

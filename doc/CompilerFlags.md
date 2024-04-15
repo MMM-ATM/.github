@@ -1,6 +1,17 @@
-# Compiler Flags
+<h1 align="center">Compiler Build Flags<a name="top"></a></h1>
 
-## ifort + ifx Compiler Options
+This documentation gives a quick reference on build flags used in the MMM Makefiles.  The majority of the flags listed below are used for at least one of the build modes.  The few which aren't being used are listed for potential future use.
+
+
+## 📚 Contents
+- [ifort + ifx Build Flags](#ifort--ifx-build-flags)
+- [gfortran Build Flags](#gfortran-build-flags)
+
+    
+## ifort + ifx Build Flags
+
+In a few of the compiler flags there may be two commands for a given OS, separated by a comma.  When this is the case, the ifort command is listed first, and the ifx command is listed afterwards.  The majority of the commands below are available on both ifort and ifx.
+
 ```make
 Linux and Mac OS X: -diag-disable [n]
 Windows:            /Qdiag-disable:[n]
@@ -146,7 +157,8 @@ Windows:            None
   functions defined within the current source file.
 ```
 
-## gfortran Compiler Options (Cygwin and Linux)
+## gfortran Build Flags
+
 ```make
 -g: 
   produces symbolic debugging info and may disable optimization (only use for make debug)
@@ -199,4 +211,5 @@ Windows:            None
 
 ---
 
-[Return](../README.md)
+###### [⬆️ Top](#top)&nbsp;&nbsp; [↩️ Return](../README.md)
+

@@ -1,4 +1,4 @@
-# Update History
+<h1 align="center">Update History<a name="top"></a></h1>
 
 - [v9.1.1](#v911), [v9.1.0](#v910)
 - [v9.0.10](#v9010), [v9.0.9](#v909), [v9.0.8](#v908), [v9.0.7](#v907), [v9.0.6](#v906), [v9.0.5](#v905), [v9.0.4](#v904), [v9.0.3](#v903), [v9.0.2](#v902), [v9.0.1](#v901)
@@ -6,8 +6,7 @@
 - [v7.2.0](#v720), [v7.1.0](#v710)
 
 ## v9.1.1
-   
-###### 2024/04/05  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2024/04/05}$
 
 **MTM**
 - Introduced nested interval scan to find most unstable mode, before modes are summed
@@ -32,8 +31,7 @@
 - Environment variable `MMMOMP` added to control OpenMP building for gfortran
 
 ## v9.1.0
-   
-###### 2024/03/22  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2024/03/22}$
 
 This is a major update that increases the precision of all models and makes
 v9.1.0 twice as fast as the previous version, v9.0.10.  Numerous improvements
@@ -151,8 +149,7 @@ See `mmm_wrapper.f90` for implementation examples.
 - Test driver depreciated until it is updated to work with recent changes
 
 ## v9.0.10
-   
-###### 2022/12/23  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/12/23}$
 
 **Interface Changes:**
 - Input variable `z_bpol` added
@@ -178,8 +175,7 @@ See `mmm_wrapper.f90` for implementation examples.
 
 
 ## v9.0.9
-
-###### 2022/12/14  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/12/14}$
 
 **CDF Input:**
 * New program written in python that generates input files for MMM using output CDF from TRANSP.
@@ -199,7 +195,7 @@ See `mmm_wrapper.f90` for implementation examples.
 * Fixed an indexing error in R8TOMSQZ when using gfortran in debug mode; results were not affected.
 
 ## v9.0.8
-###### 2022/12/05  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/12/05}$
 
 **Model Updates:**
 - Updated system equations for DBM model
@@ -220,7 +216,7 @@ See `mmm_wrapper.f90` for implementation examples.
 
 
 ## v9.0.7
-###### 2022/11/10  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/11/10}$
 
 This update only changes the MMM subroutine interface, relative to the previous version.
 
@@ -229,7 +225,7 @@ There are now two distinct MMM interfaces, depending on what build options are u
 - The developer interface `(make dev)`.  Includes additional output variables not intended for public release
 
 ## v9.0.6
-###### 2022/11/09  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/11/09}$
 
 **Interface Changes:**
 - Updated the MMM interface, depending on which build option is used
@@ -248,7 +244,7 @@ There are now two distinct MMM interfaces, depending on what build options are u
 
 
 ## v9.0.5
-###### 2022/10/31  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/10/31}$
 
 Note: This is a minor update to help with diagnostic feedback
 
@@ -258,7 +254,7 @@ Note: This is a minor update to help with diagnostic feedback
 - Added version variable to modmmm
 
 ## v9.0.4
-###### 2022/09/26  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/09/26}$
 
 **W20 Convergence Loop Overhaul:**
 - The algorithm used for mode convergence was greatly simplified, making it easier to read and understand.
@@ -291,7 +287,7 @@ Note: This is a minor update to help with diagnostic feedback
 
 
 ## v9.0.3
-###### 2022/09/12  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/09/12}$
 
 **W20 Changes:**
 - Now calculating variables betae and vei, instead of receiving them as input arguments
@@ -306,7 +302,7 @@ Note: This is a minor update to help with diagnostic feedback
 
 
 ## v9.0.2
-###### 2022/07/12  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/07/12}$
 
 **Model Changes:**
    - Removed $R/R_0$ factor applied to gradients in the W20 model
@@ -319,7 +315,7 @@ Note: This is a minor update to help with diagnostic feedback
 
 
 ## v9.0.1
-###### 2022/07/02  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/07/02}$
 
 **MMM Module Updates** 
   - Complete rewrite of codebase 
@@ -365,14 +361,14 @@ Note: This is a minor update to help with diagnostic feedback
   - License and terms of use updated
 
 ## v8.2.3
-###### 2022/03/29  ([Top](#update-history))
-            
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/03/29}$
+
 **General Updates**
 - Added input option limits on W20 particle diffusivity <br>
 - Several fixes related to IMAS support <br>
 
 ## v8.2.2
-###### 2022/02/14  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2022/02/14}$
 
 **MTM Model Updates**
 - Corrected sum calculation and updated calibration
@@ -386,21 +382,21 @@ Note: This is a minor update to help with diagnostic feedback
 - General stability improvements
 
 ## v8.2.1
-###### 2021/06/01  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2021/06/01}$
 
 **General Updates**
 - Fixed default settings in TestMMM
 - Added optional kyrhosMTM output variable
 
 ## v8.2.0
-###### 2021/04/13  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2021/04/13}$
 
 **General Updates**
 - Introduced support for IMAS
 
 
 ## v8.1.0
-###### 2021/04/12  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2021/04/12}$
 
 **Weiland Model Updates**
 - Introduced current gradient term
@@ -410,16 +406,16 @@ Note: This is a minor update to help with diagnostic feedback
 - Updated file structure and removed old MMM95 files
 
 ## v7.2.0
-###### 2019/09/24  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2019/09/24}$
 
 MTM Model Introduced 
 
 ## v7.1.0
-###### 2010/02/11  ([Top](#update-history))
+$\textsf{\color[rgb]{0.51764,0.55294,0.59215} 2010/02/11}$
 
 Release of MMM 7.1.0
 
 
 ---
 
-[Return](../README.md)
+###### [⬆️ Top](#top)&nbsp;&nbsp; [↩️ Return](../README.md)

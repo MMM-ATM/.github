@@ -1,6 +1,7 @@
-# MMM Library Documentation
+<h1 align="center">MMM Library<a name="top"></a></h1>
+This documentation covers specifics of the MMM module and library, including public definitions, input options, and input and output variables.  The mmm_wrapper.f90 file in the wrapper directory serves as an excellent reference point for everything mentioned here.
 
-## Contents
+## 📚 Contents
 - [Public Definitions](#public-definitions)
 - [Input Options](#input-options)
 - [Input Variables](#input-variables)
@@ -346,4 +347,4 @@ It is strongly recommended to call MMM using keyword arguments, as the number an
 
 ---
 
-[Return](../README.md)
+###### [⬆️ Top](#top)&nbsp;&nbsp; [↩️ Return](../README.md)

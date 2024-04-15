@@ -1,0 +1,63 @@
+\documentclass[11pt]{article}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[english]{babel}
+\usepackage[sort&compress,numbers]{natbib}
+\bibliographystyle{apsrev4-1}
+\usepackage{doi}%<----------
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+\usepackage[letterpaper,top=2cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+
+% Useful packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\hypersetup{
+  bookmarksopen=true,
+  pdfborder={0 0 0},
+  pdfhighlight={/N},
+  linkbordercolor=[rgb]{0.5,0.5,0.5},
+  colorlinks=true,
+  citecolor=blue,
+  filecolor=blue,
+  urlcolor=blue,
+  linkcolor=blue,
+}
+
+\renewcommand{\bibsection}{}
+
+\title{MMM-ATM Terms Of Use\vspace{-\baselineskip}}
+\date{Revised: \today}
+
+\begin{document}
+
+\maketitle
+
+\subsection*{TERMS OF USE}
+
+This document constitutes an agreement (the "Agreement") between you and the Multi-Mode Anomalous Transport Module Group, (the "Group," "we," "us," and "our") that governs the relationship between you and the Group with respect to your use of the Multi-Mode Anomalous Transport Module (MMM). The Group provides access to this software and any related services subject to your compliance with this Agreement. Thus, it is important that you carefully read and understand this Agreement.\\[\baselineskip]
+The terms and conditions herein are in addition to and supplement the End User License Agreement posted at \href{https://github.com/MMM-ATM/.github/blob/main/legal/eula.pdf}{https://github.com/MMM-ATM/.github/blob/main/legal/eula.pdf}, which governs the use of all software and services distributed by the Group. Please review the End User License Agreement carefully.
+
+\subsection*{CONTACT}
+
+All correspondence between you and the Group as required by this Agreement should be addressed to Tariq Rafiq (\href{mailto:rafiq@lehigh.edu}{rafiq@lehigh.edu}), unless otherwise specified.
+
+\subsection*{USAGE CONDITIONS}
+
+When using the Multi-Mode Anomalous Transport Module, you agree to:
+\begin{itemize}
+    \item communicate important results to the Group, and to inform them of potential code concerns;
+    \item allow the Group to verify all results produced by MMM prior to publication;
+    \item include the names of the primary authors in the author list of any publication that uses MMM (unless, upon consultation with the Group, it is agreed not to do so);
+    \item include the code name MMM in any published results; and
+    \item include results only from official MMM releases.
+\end{itemize}
+
+\subsection*{CITATION}
+You agree to cite the Group's original publication \cite{doi:10.1063/1.4794288} when publishing results from MMM:
+\bibliography{mmm.bib}
+
+
+\end{document}
